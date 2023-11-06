@@ -1,0 +1,52 @@
+syntax = "proto3";
+
+package vector;
+
+import "vector_models.proto";
+
+// VectorService defines the set of RPC methods available for vector operations.
+service VectorService {
+  // GetEmbedding converts a text into its corresponding embedding.
+  rpc GetEmbedding(GetEmbeddingRequest) returns (GetEmbeddingResponse);
+
+  // GetSimilarity calculates the similarity between a query embedding and a list of data embeddings.
+  rpc GetSimilarity(GetSimilarityRequest) returns (GetSimilarityResponse);
+
+  // LoadQueries loads a list of queries into the service. These queries will be converted to embeddings and stored for
+  // future similarity checks.
+  rpc LoadQueries(LoadQueryRequest) returns (LoadQueryResponse);
+}
+
+message GetEmbeddingRequest {
+  // The text input that needs to be converted to an embedding.
+  string input_text = 1;
+}
+
+message GetEmbeddingResponse {
+  // The resulting embedding for the input text.
+  Embedding resulting_embedding = 1;
+}
+
+message GetSimilarityRequest {
+  // The input embedding for which similarity is to be calculated.
+  Embedding input_embedding = 1;
+}
+
+message GetSimilarityResponse {
+  // Query embeddings that are similar to the input query embedding.
+  repeated string matches = 1;
+  // Similarity scores for the query embeddings.
+  repeated float scores = 2;
+}
+
+message LoadQueryRequest {
+  // List of queries to be loaded. These will be converted to embeddings and stored for future similarity checks.
+  repeated string queries = 1;
+  // Thresholds for the queries. These thresholds will be used to filter out the results for the queries.
+  repeated float thresholds = 2;
+}
+
+message LoadQueryResponse {
+}
+
+

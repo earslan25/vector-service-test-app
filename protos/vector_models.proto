@@ -1,0 +1,9 @@
+syntax = "proto3";
+
+package vector;
+
+// Embedding represents a high-dimensional vector.
+message Embedding {
+  // List of values that make up the embedding vector.
+  repeated float values = 1;
+}
